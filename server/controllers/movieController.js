@@ -1,4 +1,5 @@
 const {Movie} = require('../models')
+const axios = require('axios')
 
 class MovieController {
     static getMovies(req,res){
@@ -110,6 +111,48 @@ class MovieController {
         })
     }
 
+    static searchMovie(req, res) {
+        let genreList = null
+        MovieController.getMovieGenres().then(genres => {
+            genreList = genres
+            return axios.get('https://api.themoviedb.org/3/search/movie', {
+                    params: {
+                        api_key: process.env.TMDB_API_KEY,
+                        query: req.body.query
+                    }
+                }
+            )
+        }).then((response) => {
+            let showData = response.data.results.map((movie) => {
+                let genreName = genreList.find(genre => genre.id === movie.genre_ids[0])
+                if(genreName) {
+                    genreName = genreName.name
+                } else {
+                    genreName = 'Unknown'
+                }
+                return {
+                    title: movie.title,
+                    genre: genreName,
+                    rating: movie.vote_average,
+                    year: new Date(movie.release_date).getFullYear()
+                }
+            })
+            res.status(200).json(showData)
+        }).catch(err => {
+            console.log(err)
+            res.status(500).json({error: err})
+        })
+    }
+
+    static getMovieGenres() {
+        return axios.get('https://api.themoviedb.org/3/genre/movie/list', {
+            params: {
+                api_key: process.env.TMDB_API_KEY
+            }
+        }).then(response => {
+            return response.data.genres
+        })
+    }
 }
 
 module.exports = MovieController

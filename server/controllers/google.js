@@ -9,7 +9,7 @@ let sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 class Google {
     static login(req, res) {
         const token = req.body.token
-
+        let check = false
         let newUser = {}
         client.verifyIdToken({
             idToken: token,
@@ -29,6 +29,8 @@ class Google {
                 if (userData) {
                     return userData
                 } else {
+                    console.log(check)
+                    check = true
                     return User.create(newUser)
                 }
             })
@@ -38,39 +40,42 @@ class Google {
                     name: newData.name,
                     email: newData.email,
                 }
-                console.log(newData)
-                let request = sg.emptyRequest({
-                    method: 'POST',
-                    path: '/v3/mail/send',
-                    body: {
-                        personalizations: [
-                            {
-                                to: [
-                                    {
-                                        email: newData.email
-                                    }
-                                ],
-                                subject: 'Watch List'
-                            }
-                        ],
-                        from: {
-                            email: 'noreply@example.com'
-                        },
-                        content: [
-                            {
-                                type: 'text/plain',
-                                value: `Testing`
-                            }
-                        ]
-                    }
-                });
+                console.log(check)
+                if (check) {
+                    let request = sg.emptyRequest({
+                        method: 'POST',
+                        path: '/v3/mail/send',
+                        body: {
+                            personalizations: [
+                                {
+                                    to: [
+                                        {
+                                            email: newData.email
+                                        }
+                                    ],
+                                    subject: 'Watch List'
+                                }
+                            ],
+                            from: {
+                                email: 'noreply@example.com'
+                            },
+                            content: [
+                                {
+                                    type: 'text/plain',
+                                    value: `Testing`
+                                }
+                            ]
+                        }
+                    });
 
-                sg.API(request)
-                    .then(function (response) {
-                        console.log(response.statusCode);
-                        console.log(response.body);
-                        console.log(response.headers);
-                    })
+                    sg.API(request)
+                        .then(function (response) {
+                            console.log(response.statusCode);
+                            console.log(response.body);
+                            console.log(response.headers);
+                        })
+                }
+
                 const accessToken = jwt.sign(objUser, 'secret')
                 res.status(201).json({ accessToken })
             })

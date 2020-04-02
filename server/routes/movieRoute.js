@@ -1,13 +1,13 @@
 const route = require('express').Router()
 const Controller = require('../controllers/movieController')
-// const authentication = require('../middlewares/authentication')
-// const authorization = require('../middlewares/authorization')
+const authentication = require('../middlewares/authentication')
+const authorization = require('../middlewares/authorization')
 
-route.get('/', Controller.getMovies)
+route.get('/', authentication, Controller.getMovies)
 route.get('/search', Controller.searchMovie)
-route.post('/', Controller.createMovie)
+route.post('/', authentication, Controller.createMovie)
 route.get('/:id', Controller.getMovie)
 route.put('/:id', Controller.updateMovie)
-route.delete('/:id', Controller.destroyMovie)
+route.delete('/:id', authentication, authorization, Controller.destroyMovie)
 
 module.exports = route

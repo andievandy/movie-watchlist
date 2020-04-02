@@ -20,7 +20,55 @@
     <h1>Watch List</h1>
 
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    <button type="button" id="Logout" class="btn btn-dark" style="display:none">Logout</button>
+    <br>
+    <div>
+        <button type="button" id="btnAddMovie" class="btn btn-dark" style="display:none">Add Movie</button>
+        <button type="button" id="Logout" class="btn btn-dark" style="display:none">Logout</button>
+    </div>
+
+    <div id="AddMovie" style="display:none">
+        <form id="movieForm">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Title">
+            </div>
+            <div class="form-group">
+                <label for="genre">Genre</label>
+                <input type="text" class="form-control" id="genre" placeholder="Genre">
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating</label>
+                <input type="text" class="form-control" id="rating" placeholder="Rating">
+            </div>
+            <div class="form-group">
+                <label for="year">Year</label>
+                <input type="number" class="form-control" id="year" placeholder="year">
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Movie</button>
+        </form>
+    </div>
+
+    <br>
+    <div id="movieList" style="display: none;" class="movieList">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Rating</th>
+                    <th scope="col">Option</th>
+                </tr>
+            </thead>
+            <tbody id="dataBody">
+
+            </tbody>
+        </table>
+    </div>
 
     <script src="main.js"></script>
     <!-- Optional JavaScript -->

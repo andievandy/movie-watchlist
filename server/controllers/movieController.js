@@ -1,4 +1,7 @@
 const { Movie } = require('../models')
+require('dotenv').config()
+const axios = require('axios');
+
 
 class MovieController {
     static getMovies(req, res) {
@@ -19,8 +22,19 @@ class MovieController {
     }
 
     static createMovie(req, res) {
-        const { title, status, date, genre, rating, year, quote, UserId } = req.body
-        Movie.create({ title, status, date, genre, rating, year, quote, UserId: req.userID })
+        const title = req.body.title
+
+        axios({
+            method: 'GET',
+            url: `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=${title}`,
+        })
+            .then(({ data }) => {
+                //console.log(data)
+                //res.status(200).json({ data })
+                Movie.create({
+                    title: data.Title, status: false, date: new Date(), genre: data.Genre, rating: data.imdbRating, year: data.Year, quote: 'a', UserId: req.userID
+                })
+            })
             .then(movie => {
                 res.status(201).json({ movie })
             })
@@ -112,6 +126,34 @@ class MovieController {
             .catch(err => {
                 res.status(500).json(err)
             })
+    }
+
+    static similiar(req, res) {
+
+        const title = req.body.title
+
+        axios({
+            method: 'GET',
+            url: `https://tastedive.com/api/similar?q=movie:${title}&k=${process.env.TASTEDIVE_API_KEY}`,
+        })
+            .then(({ data }) => {
+                res.status(200).json({ data })
+            })
+            .catch(err => {
+                res.status(500).json({ err })
+            })
+        // axios({
+        //     method: 'GET',
+        //     url: `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=${title}`,
+        // })
+        //     .then(({ data }) => {
+        //         //console.log(data)
+        //         res.status(200).json({ data })
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //         res.status(500).json({ err })
+        //     })
     }
 
 }

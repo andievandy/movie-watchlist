@@ -20,8 +20,72 @@
 <body>
     <!-- <h1>Watch List</h1> -->
 
-    <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
-    <button type="button" id="Logout" class="btn btn-dark" style="display:none">Logout</button>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <br>
+    <div>
+        <button type="button" id="btnSearchMovie" class="btn btn-dark" style="display:none">Search Movie</button>
+        <button type="button" id="Logout" class="btn btn-dark" style="display:none">Logout</button>
+        <button type="button" id="addMovie" class="btn btn-dark" style="display:none">Add Movie</button>
+    </div>
+
+    <br>
+
+    <div id="searchMovie" style="display:none">
+        <form id="movieForm">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Title">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Search Movie</button>
+        </form>
+    </div>
+
+    <div id="addDataMovie" style="display:none">
+        <form id="addMovieForm">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="titleMovie" placeholder="Title">
+            </div>
+
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Movie</button>
+        </form>
+    </div>
+
+    <div id="addmovieList" style="display: none;" class="addmovieList">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Title</th>
+                </tr>
+            </thead>
+            <tbody id="adddataBody">
+
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <div id="movieList" style="display: none;" class="movieList">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Rating</th>
+                    <th scope="col">Option</th>
+                </tr>
+            </thead>
+            <tbody id="dataBody">
+
+            </tbody>
+        </table>
+    </div>
 
         <!-- Login dan Register -->
         <div id="loginRegister" class="container">

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id"
+        content="1049621481257-94pk5aisienicti42lpi22u2fbc3t3m0.apps.googleusercontent.com">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Watch List</title>
+</head>
+
+<body>
+    <!-- <h1>Watch List</h1> -->
+
+    <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+    <br>
+    <div>
+        <button type="button" id="btnSearchMovie" class="btn btn-dark" style="display:none">Search Movie</button>
+        <button type="button" id="Logout" class="btn btn-dark" style="display:none">Logout</button>
+        <button type="button" id="addMovie" class="btn btn-dark" style="display:none">Add Movie</button>
+    </div>
+
+    <br>
+
+    <div id="searchMovie" style="display:none">
+        <form id="movieForm">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Title">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Search Movie</button>
+        </form>
+    </div>
+
+    <div id="addDataMovie" style="display:none">
+        <form id="addMovieForm">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="titleMovie" placeholder="Title">
+            </div>
+
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Movie</button>
+        </form>
+    </div>
+
+    <div id="addmovieList" style="display: none;" class="addmovieList">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Title</th>
+                </tr>
+            </thead>
+            <tbody id="adddataBody">
+
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <div id="movieList" style="display: none;" class="movieList">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Rating</th>
+                    <th scope="col">Sinopsis</th>
+                    <th scope="col">Option</th>
+                </tr>
+            </thead>
+            <tbody id="dataBody">
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Login dan Register -->
+    <div id="loginRegister" class="container">
+        <div class="row mb-3 mt-3">
+            <div class="jumbotron jumbotron-fluid col-md-6 mb-0">
+                <div class="container">
+                    <h1 class="display-4">Watchlist</h1>
+                    <p class="lead">Watchlist is an app ...</p>
+                </div>
+            </div>
+            <div class="form-group col-md-6" id="login">
+                <h3>Login</h3>
+                <form method="POST" id="login">
+                    <label for="emailLogin">Email:</label>
+                    <input type="text" class="form-control" id="emailLogin" placeholder="john.doe@mail.com">
+                    <label for="passwordLogin">Password:</label>
+                    <input type="password" class="form-control" id="passwordLogin">
+                    <br>
+                    <input type="submit" class="btn btn-primary" value="Login">
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#modalRegister">Register</button>
+                    <div style="margin-top: 16px;" class="g-signin2" data-onsuccess="onSignIn"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Register -->
+        <div class="modal fade" id="modalRegister" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Register</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="register">
+                            <p>Name:</p>
+                            <input type="text" id="nameRegister" class="form-control" placeholder="e.g. John Doe">
+                            <p>Email:</p>
+                            <input type="text" id="emailRegister" class="form-control"
+                                placeholder="e.g. john.doe@mail.com">
+                            <p>Password:</p>
+                            <input type="password" id="passwordRegister" class="form-control">
+                            <br>
+                            <input type="submit" class="btn btn-primary" value="Register">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+</body>
+
+</html>

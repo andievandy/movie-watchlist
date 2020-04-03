@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
+let sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 class UserController {
     static register(req, res) {
@@ -8,11 +9,43 @@ class UserController {
             name: field.name,
             password: field.password,
             email: field.email
-        }).then(() => {
+        }).then((newData) => {
+            let request = sg.emptyRequest({
+                method: 'POST',
+                path: '/v3/mail/send',
+                body: {
+                    personalizations: [
+                        {
+                            to: [
+                                {
+                                    email: newData.email
+                                }
+                            ],
+                            subject: 'Watch List'
+                        }
+                    ],
+                    from: {
+                        email: 'noreply@example.com'
+                    },
+                    content: [
+                        {
+                            type: 'text/plain',
+                            value: `Terima kasih sudah bergabung dengan movielist`
+                        }
+                    ]
+                }
+            });
+
+            return sg.API(request)
+        }).then(response => {
+            console.log(response.statusCode);
+            console.log(response.body);
+            console.log(response.headers);
             res.status(201).json({
                 message: 'User created'
             })
         }).catch(err => {
+            console.log(err);
             res.status(500).json({error: err});
         })
     }

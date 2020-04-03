@@ -4,6 +4,7 @@ const authentication = require('../middlewares/authentication')
 const authorization = require('../middlewares/authorization')
 
 route.get('/', authentication, Controller.getMovies)
+route.get('/search', Controller.searchMovie)
 route.post('/', authentication, Controller.createMovie)
 route.get('/:id', Controller.getMovie)
 route.put('/:id', Controller.updateMovie)

@@ -1,7 +1,6 @@
 const { Movie } = require('../models')
 require('dotenv').config()
-const axios = require('axios');
-
+const axios = require('axios')
 
 class MovieController {
     static getMovies(req, res) {
@@ -156,7 +155,6 @@ class MovieController {
         //         res.status(500).json({ err })
         //     })
     }
-
 }
 
 module.exports = MovieController

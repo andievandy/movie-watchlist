@@ -225,6 +225,8 @@ function getData(token) {
                          </td><td>
                          ${result.movies[i].rating}
                          </td> <td>
+                         ${result.movies[i].quote}
+                         </td> <td>
                          
                          <button type="button" id="deleteData" class="btn btn-dark" value="${result.movies[i].id}" onclick="deleteData(${result.movies[i].id})">Delete</button>
                     </td></tr>`)
@@ -258,7 +260,7 @@ function deleteData(id) {
         })
 }
 
-$('body').on('click', '.movie-checkbox > .checkmark', function(e) {
+$('body').on('click', '.movie-checkbox > .checkmark', function (e) {
     e.preventDefault()
     let parentTableRow = $($(e.target)[0]).parent().parent().parent()
     let checkbox = $($(e.target)[0]).siblings('input[type=checkbox]')
@@ -266,9 +268,9 @@ $('body').on('click', '.movie-checkbox > .checkmark', function(e) {
     let checked = checkbox.prop('checked')
     let date = new Date();
     let dateStr = date.toISOString();
-    if(id) {
+    if (id) {
         $.ajax({
-            url:`http://localhost:3000/movies/${id}`,
+            url: `http://localhost:3000/movies/${id}`,
             type: 'PUT',
             headers: {
                 "token": localStorage.getItem('accesstoken')
@@ -278,12 +280,12 @@ $('body').on('click', '.movie-checkbox > .checkmark', function(e) {
                 date: dateStr
             }
         })
-        .done(function(data){
-            checkbox.prop('checked', data.edited.status)
-        })
-        .fail(function(err){
-            console.log(err)
-            // swal("Error!", err.responseJSON.message, "error");
-        })
+            .done(function (data) {
+                checkbox.prop('checked', data.edited.status)
+            })
+            .fail(function (err) {
+                console.log(err)
+                // swal("Error!", err.responseJSON.message, "error");
+            })
     }
 })

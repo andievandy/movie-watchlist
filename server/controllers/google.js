@@ -61,7 +61,7 @@ class Google {
                             content: [
                                 {
                                     type: 'text/plain',
-                                    value: `Testing`
+                                    value: `Terima kasih sudah bergabung dengan movielist`
                                 }
                             ]
                         }

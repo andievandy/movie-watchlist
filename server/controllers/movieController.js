@@ -32,7 +32,7 @@ class MovieController {
                 //console.log(data)
                 //res.status(200).json({ data })
                 Movie.create({
-                    title: data.Title, status: false, date: date, genre: data.Genre, rating: data.imdbRating, year: data.Year, quote: 'a', UserId: req.userID
+                    title: data.Title, status: false, date: date, genre: data.Genre, rating: data.imdbRating, year: data.Year, quote: data.Plot, UserId: req.userID
                 })
             })
             .then(movie => {

@@ -39,7 +39,7 @@ class Google {
                     name: newData.name,
                     email: newData.email,
                 }
-
+                console.log(check)
                 if (check) {
                     let request = sg.emptyRequest({
                         method: 'POST',

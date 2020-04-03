@@ -96,6 +96,7 @@ function onSignIn(googleUser) {
                 localStorage.setItem('accesstoken', response.accessToken)
                 localStorage.setItem('loginWith', 'googleForm')
                 getData(localStorage.getItem('accesstoken'))
+                $('#loginRegister').hide()
                 $("#Logout").css('display', 'inline-block');
                 $(".signin2").css('display', 'none');
                 $("#btnSearchMovie").css('display', 'inline-block');
@@ -117,11 +118,13 @@ $("#Logout").click(function () {
         $("#btnSearchMovie").css('display', 'none');
         $("#movieList").css('display', 'none');
         $("#addmovieList").css('display', 'none');
+        $("#addMovie").css('display', 'none');
+        $('#loginRegister').show()
     }
 })
 
 ///login///
-$('#login').submit(function(e){
+$('#login').submit(function (e) {
     e.preventDefault();
 
     let email = $('#emailLogin').val()
@@ -134,25 +137,25 @@ $('#login').submit(function(e){
 
     ///AJAX POST Login
     $.ajax({
-        url:'http://localhost:3000/user/login',
+        url: 'http://localhost:3000/user/login',
         type: 'POST',
         data: user
     })
-    .done(function(data){
-        localStorage.setItem("token",data)
-        $("#Logout").css('display', 'inline-block');
-        $('#loginRegister').hide()
-    })
-    .fail(function(err){
-        console.log(err)
-        // swal("Error!", err.responseJSON.message, "error");
-    })
+        .done(function (data) {
+            localStorage.setItem("token", data)
+            $("#Logout").css('display', 'inline-block');
+            $('#loginRegister').hide()
+        })
+        .fail(function (err) {
+            console.log(err)
+            // swal("Error!", err.responseJSON.message, "error");
+        })
 })
 
 ///register new user
-$('#register').submit(function(e){
+$('#register').submit(function (e) {
     e.preventDefault();
-    
+
     let name = $('#nameRegister').val()
     let email = $('#emailRegister').val()
     let password = $('#passwordRegister').val()
@@ -165,18 +168,18 @@ $('#register').submit(function(e){
 
     ///AJAX POST Register
     $.ajax({
-        url:'http://localhost:3000/user/register',
+        url: 'http://localhost:3000/user/register',
         type: 'POST',
         data: user
     })
-    .done(function(data){
-        $('#modalRegister').modal('hide')
-        console.log(data)
-    })
-    .fail(function(err){
-        console.log(err)
-        // swal("Error!", err.responseJSON.message, "error");
-    })
+        .done(function (data) {
+            $('#modalRegister').modal('hide')
+            console.log(data)
+        })
+        .fail(function (err) {
+            console.log(err)
+            // swal("Error!", err.responseJSON.message, "error");
+        })
 })
 
 // function addDataMovie(result) {

@@ -1,9 +1,10 @@
 $(document).ready(function () {
 
-    $("#addMovie").click(function (e) {
+    $("#addMovieForm").submit(function (e) {
         e.preventDefault()
         let objMovie = {}
-        objMovie.title = 'The Chronicles Of Narnia: The Lion, The Witch And The Wardrobe'
+        objMovie.title = $('#titleMovie').val()
+        objMovie.date = $('#date').val()
 
         $.ajax({
             url: "http://localhost:3000/movies",
@@ -15,7 +16,9 @@ $(document).ready(function () {
             data: JSON.stringify(objMovie)
         })
             .done(function (result) {
-                $('#movieForm')[0].reset();
+                $('#addMovieForm')[0].reset();
+                $("#addMovieForm").toggle();
+                $("#addmovieList").css('display', 'none');
                 getData(localStorage.getItem('accesstoken'))
             })
             .fail(function (err) {
@@ -25,6 +28,10 @@ $(document).ready(function () {
 
     $("#btnSearchMovie").click(function () {
         $("#searchMovie").toggle();
+    });
+
+    $("#addMovie").click(function () {
+        $("#addDataMovie").toggle();
     });
 
     $("#movieForm").submit(function (e) {
@@ -61,8 +68,7 @@ $(document).ready(function () {
                         trHTML +=
                             `<tr><td>
                                      ${result.data.Similar.Results[i].Name}
-                                     </td> <td>
-                                     <button type="button" id="addData" class="btn btn-dark" value="${result.data.Similar.Results[i].Name}" onclick="addDataMv(${result.data.Similar.Results[i].Name})">Add</button>
+                                     
                                 </td></tr>`
                     }
                 });
@@ -93,6 +99,7 @@ function onSignIn(googleUser) {
                 $("#Logout").css('display', 'inline-block');
                 $(".signin2").css('display', 'none');
                 $("#btnSearchMovie").css('display', 'inline-block');
+                $("#addMovie").css('display', 'inline-block');
             }
         }
     })
@@ -109,6 +116,7 @@ $("#Logout").click(function () {
         $(".signin2").css('display', 'inline-block');
         $("#btnSearchMovie").css('display', 'none');
         $("#movieList").css('display', 'none');
+        $("#addmovieList").css('display', 'none');
     }
 })
 

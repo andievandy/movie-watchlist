@@ -45,10 +45,10 @@ class UserController {
 
     static jwtSignUser(user) {
         return jwt.sign({
-            id: user.id,
+            userId: user.id,
             name: user.name,
             email: user.email
-        }, process.env.JWT_SECRETKEY);
+        }, process.env.JWT_SECRET);
     }
 }
 

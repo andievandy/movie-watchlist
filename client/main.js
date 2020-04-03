@@ -18,7 +18,7 @@ $(document).ready(function () {
         })
             .done(function (result) {
                 $('#addMovieForm')[0].reset();
-                $("#addMovieForm").toggle();
+                $("#addDataMovie").toggle();
                 $("#addmovieList").css('display', 'none');
                 getData(localStorage.getItem('accesstoken'))
             })

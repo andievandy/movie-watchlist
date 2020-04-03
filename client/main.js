@@ -211,11 +211,14 @@ function getData(token) {
     })
         .done(function (result) {
             $("#dataBody").html("")
-            let trHTML = '';
             $.each(result, function (i, data) {
                 for (i = 0; i < result.movies.length; i++) {
-                    trHTML +=
-                        `<tr><td>
+                    let trHTML =
+                        $(`<tr data-id="${result.movies[i].id}"><td>
+                        <label class="movie-checkbox">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
                          ${result.movies[i].title}
                          </td><td>
                          ${result.movies[i].genre}
@@ -224,10 +227,12 @@ function getData(token) {
                          </td> <td>
                          
                          <button type="button" id="deleteData" class="btn btn-dark" value="${result.movies[i].id}" onclick="deleteData(${result.movies[i].id})">Delete</button>
-                    </td></tr>`
+                    </td></tr>`)
+                    let checkbox = trHTML.find('input[type=checkbox]')
+                    checkbox.prop('checked', result.movies[i].status)
+                    $('#dataBody').append(trHTML)
                 }
             });
-            $('#dataBody').append(trHTML);
         })
         .fail(function (err) {
             console.log(err)
@@ -252,3 +257,33 @@ function deleteData(id) {
             console.log(err)
         })
 }
+
+$('body').on('click', '.movie-checkbox > .checkmark', function(e) {
+    e.preventDefault()
+    let parentTableRow = $($(e.target)[0]).parent().parent().parent()
+    let checkbox = $($(e.target)[0]).siblings('input[type=checkbox]')
+    let id = parentTableRow.data('id')
+    let checked = checkbox.prop('checked')
+    let date = new Date();
+    let dateStr = date.toISOString();
+    if(id) {
+        $.ajax({
+            url:`http://localhost:3000/movies/${id}`,
+            type: 'PUT',
+            headers: {
+                "token": localStorage.getItem('accesstoken')
+            },
+            data: {
+                status: !checked,
+                date: dateStr
+            }
+        })
+        .done(function(data){
+            checkbox.prop('checked', data.edited.status)
+        })
+        .fail(function(err){
+            console.log(err)
+            // swal("Error!", err.responseJSON.message, "error");
+        })
+    }
+})

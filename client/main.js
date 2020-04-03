@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    checkLoginState()
 
     $("#addMovieForm").submit(function (e) {
         e.preventDefault()
@@ -95,12 +96,7 @@ function onSignIn(googleUser) {
             201: function (response) {
                 localStorage.setItem('accesstoken', response.accessToken)
                 localStorage.setItem('loginWith', 'googleForm')
-                getData(localStorage.getItem('accesstoken'))
-                $('#loginRegister').hide()
-                $("#Logout").css('display', 'inline-block');
-                $(".signin2").css('display', 'none');
-                $("#btnSearchMovie").css('display', 'inline-block');
-                $("#addMovie").css('display', 'inline-block');
+                checkLoginState()
             }
         }
     })
@@ -112,15 +108,9 @@ $("#Logout").click(function () {
         auth2.signOut().then(function () {
             console.log('User signed out.');
         });
-        localStorage.clear();
-        $("#Logout").css('display', 'none');
-        $(".signin2").css('display', 'inline-block');
-        $("#btnSearchMovie").css('display', 'none');
-        $("#movieList").css('display', 'none');
-        $("#addmovieList").css('display', 'none');
-        $("#addMovie").css('display', 'none');
-        $('#loginRegister').show()
     }
+    localStorage.clear()
+    checkLoginState()
 })
 
 ///login///
@@ -142,9 +132,8 @@ $('#login').submit(function (e) {
         data: user
     })
         .done(function (data) {
-            localStorage.setItem("token", data)
-            $("#Logout").css('display', 'inline-block');
-            $('#loginRegister').hide()
+            localStorage.setItem("accesstoken", data.accessToken)
+            checkLoginState();
         })
         .fail(function (err) {
             console.log(err)
@@ -242,6 +231,27 @@ function getData(token) {
         .always(function () {
             //console.log('a')
         })
+}
+
+function checkLoginState() {
+    let accessToken = localStorage.getItem('accesstoken')
+    if(accessToken) {
+        console.log('up');
+        getData(accessToken)
+        $('#loginRegister').hide()
+        $("#Logout").css('display', 'inline-block');
+        $(".signin2").css('display', 'none');
+        $("#btnSearchMovie").css('display', 'inline-block');
+        $("#addMovie").css('display', 'inline-block');
+    } else {        
+        $("#Logout").css('display', 'none');
+        $(".signin2").css('display', 'inline-block');
+        $("#btnSearchMovie").css('display', 'none');
+        $("#movieList").css('display', 'none');
+        $("#addmovieList").css('display', 'none');
+        $("#addMovie").css('display', 'none');
+        $('#loginRegister').show()
+    }
 }
 
 function deleteData(id) {

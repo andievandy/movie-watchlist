@@ -208,7 +208,6 @@ function getData(token) {
     })
         .done(function (result) {
             $("#dataBody").html("")
-            let trHTML = '';
             $.each(result, function (i, data) {
                 for (i = 0; i < result.movies.length; i++) {
                     let trHTML =
@@ -231,7 +230,6 @@ function getData(token) {
                     $('#dataBody').append(trHTML)
                 }
             });
-            $('#dataBody').append(trHTML);
         })
         .fail(function (err) {
             console.log(err)

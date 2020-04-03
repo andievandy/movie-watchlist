@@ -236,7 +236,6 @@ function getData(token) {
 function checkLoginState() {
     let accessToken = localStorage.getItem('accesstoken')
     if(accessToken) {
-        console.log('up');
         getData(accessToken)
         $('#loginRegister').hide()
         $("#Logout").css('display', 'inline-block');

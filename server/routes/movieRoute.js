@@ -9,5 +9,6 @@ route.post('/', authentication, Controller.createMovie)
 route.get('/:id', Controller.getMovie)
 route.put('/:id', Controller.updateMovie)
 route.delete('/:id', authentication, authorization, Controller.destroyMovie)
+route.post('/similiar', authentication, Controller.similiar)
 
 module.exports = route

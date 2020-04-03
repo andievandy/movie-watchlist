@@ -1,4 +1,5 @@
 const { Movie } = require('../models')
+require('dotenv').config()
 const axios = require('axios')
 
 class MovieController {
@@ -20,8 +21,20 @@ class MovieController {
     }
 
     static createMovie(req, res) {
-        const { title, status, date, genre, rating, year, quote, UserId } = req.body
-        Movie.create({ title, status, date, genre, rating, year, quote, UserId: req.userID })
+        const title = req.body.title
+        const date = req.body.date
+
+        axios({
+            method: 'GET',
+            url: `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=${title}`,
+        })
+            .then(({ data }) => {
+                //console.log(data)
+                //res.status(200).json({ data })
+                Movie.create({
+                    title: data.Title, status: false, date: date, genre: data.Genre, rating: data.imdbRating, year: data.Year, quote: 'a', UserId: req.userID
+                })
+            })
             .then(movie => {
                 res.status(201).json({ movie })
             })
@@ -115,47 +128,32 @@ class MovieController {
             })
     }
 
-    static searchMovie(req, res) {
-        let genreList = null
-        MovieController.getMovieGenres().then(genres => {
-            genreList = genres
-            return axios.get('https://api.themoviedb.org/3/search/movie', {
-                    params: {
-                        api_key: process.env.TMDB_API_KEY,
-                        query: req.body.query
-                    }
-                }
-            )
-        }).then((response) => {
-            let showData = response.data.results.map((movie) => {
-                let genreName = genreList.find(genre => genre.id === movie.genre_ids[0])
-                if(genreName) {
-                    genreName = genreName.name
-                } else {
-                    genreName = 'Unknown'
-                }
-                return {
-                    title: movie.title,
-                    genre: genreName,
-                    rating: movie.vote_average,
-                    year: new Date(movie.release_date).getFullYear()
-                }
-            })
-            res.status(200).json(showData)
-        }).catch(err => {
-            console.log(err)
-            res.status(500).json({error: err})
-        })
-    }
+    static similiar(req, res) {
 
-    static getMovieGenres() {
-        return axios.get('https://api.themoviedb.org/3/genre/movie/list', {
-            params: {
-                api_key: process.env.TMDB_API_KEY
-            }
-        }).then(response => {
-            return response.data.genres
+        const title = req.body.title
+
+        axios({
+            method: 'GET',
+            url: `https://tastedive.com/api/similar?q=movie:${title}&k=${process.env.TASTEDIVE_API_KEY}`,
         })
+            .then(({ data }) => {
+                res.status(200).json({ data })
+            })
+            .catch(err => {
+                res.status(500).json({ err })
+            })
+        // axios({
+        //     method: 'GET',
+        //     url: `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&t=${title}`,
+        // })
+        //     .then(({ data }) => {
+        //         //console.log(data)
+        //         res.status(200).json({ data })
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //         res.status(500).json({ err })
+        //     })
     }
 }
 
